@@ -1,7 +1,7 @@
-﻿using ChibisTest.DataAccess.Entities;
+﻿using ChibisTest.Features.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChibisTest.DataAccess
+namespace ChibisTest.Features.DataAccess
 {
     public class ApplicationDbContext : DbContext
     {
@@ -10,7 +10,7 @@ namespace ChibisTest.DataAccess
 
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Entities.Cart> Carts { get; set; }
 
         public DbSet<CartItem> CartItems { get; set; }
 
@@ -20,15 +20,17 @@ namespace ChibisTest.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Cart>()
+            modelBuilder.Entity<Entities.Cart>()
                 .HasMany(c => c.CartItems)
                 .WithOne(c => c.Cart)
-                .HasForeignKey(c => c.CartId);
+                .HasForeignKey(c => c.CartId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CartItem>()
                 .HasOne(c => c.Product)
                 .WithMany(c => c.CartItems)
-                .HasForeignKey(c => c.ProductId);
+                .HasForeignKey(c => c.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

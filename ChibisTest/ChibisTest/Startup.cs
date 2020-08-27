@@ -2,11 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
-using ChibisTest.DataAccess;
 using ChibisTest.Features.Cart;
+using ChibisTest.Features.DataAccess;
+using ChibisTest.Features.HostedServices;
 using ChibisTest.Features.Products;
+using ChibisTest.Features.Report;
+using ChibisTest.Features.WebHooks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,10 +45,17 @@ namespace ChibisTest
             });
 
             services.AddTransient<IProductsService, ProductsService>();
-            services.AddTransient<ICartService, CartService>();
+            services.AddTransient<ICartCrudService, CartCrudService>();
+            services.AddScoped<IHooksService, HooksService>();
+            services.AddScoped<IReportDataService, ReportDataService>();
+            services.AddScoped<IReportExporter, TextFileReportExporter>();
+            services.AddScoped<ICartExpiredService, CartExpiredService>();
+            services.AddHostedService<CartExpiringTimedService>();
+            services.AddHostedService<ReportGeneratorTimedService>();
+            services.AddHttpClient();
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=cartService.db"));
-
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

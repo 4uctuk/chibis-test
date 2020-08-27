@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using ChibisTest.DataAccess.Entities;
 using ChibisTest.Features.Common;
 using ChibisTest.Features.Common.Exceptions;
-using ChibisTest.Features.Products.Dto;
+using ChibisTest.Features.DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChibisTest.Features.Products

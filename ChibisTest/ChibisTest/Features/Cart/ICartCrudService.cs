@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ChibisTest.DataAccess.Entities;
 using ChibisTest.Features.Common;
+using ChibisTest.Features.DataAccess.Entities;
 
 namespace ChibisTest.Features.Cart
 {
-    public interface ICartService
+    public interface ICartCrudService
     {
         /// <summary>
         /// Return all carts paged
@@ -28,7 +28,7 @@ namespace ChibisTest.Features.Cart
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        Task AddCartItem(AddProductToCartDto item);
+        Task<Guid> AddCartItem(AddProductToCartDto item);
 
         /// <summary>
         /// Delete item from cart

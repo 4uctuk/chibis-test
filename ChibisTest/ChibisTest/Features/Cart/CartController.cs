@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using ChibisTest.DataAccess.Entities;
 using ChibisTest.Features.Common;
 using ChibisTest.Features.Common.Exceptions;
+using ChibisTest.Features.DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChibisTest.Features.Cart
@@ -13,18 +13,18 @@ namespace ChibisTest.Features.Cart
     [ApiController]
     public class CartController : ControllerBase
     {
-        private readonly ICartService _cartService;
+        private readonly ICartCrudService _cartCrudService;
 
-        public CartController(ICartService cartService)
+        public CartController(ICartCrudService cartCrudService)
         {
-            _cartService = cartService;
+            _cartCrudService = cartCrudService;
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(ItemsPaged<DataAccess.Entities.Cart>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCarts(int limit = 50, int offset = 0)
         {
-            var carts = await _cartService.GetAllCartsPaged(limit, offset);
+            var carts = await _cartCrudService.GetAllCartsPaged(limit, offset);
             return Ok(carts);
         }
         
@@ -35,7 +35,7 @@ namespace ChibisTest.Features.Cart
         {
             try
             {
-                var cartItems = await _cartService.GetCartItems(cartId);
+                var cartItems = await _cartCrudService.GetCartItems(cartId);
                 return Ok(cartItems);
             }
             catch (EntityNotFoundException)
@@ -50,8 +50,8 @@ namespace ChibisTest.Features.Cart
         {
             try
             {
-                await _cartService.AddCartItem(productCartDto);
-                return Ok();
+                var cartId = await _cartCrudService.AddCartItem(productCartDto);
+                return Ok(cartId);
             }
             catch (ArgumentNullException e)
             {
@@ -69,7 +69,7 @@ namespace ChibisTest.Features.Cart
         {
             try
             {
-                await _cartService.DeleteCartItem(productCartDto);
+                await _cartCrudService.DeleteCartItem(productCartDto);
                 return Ok();
             }
             catch (ArgumentNullException e)

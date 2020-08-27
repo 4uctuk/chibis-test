@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ChibisTest.Features.Products.Dto
+﻿namespace ChibisTest.Features.Products
 {
     public class CreateAndUpdateProductDto
     {

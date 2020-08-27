@@ -12,7 +12,7 @@ namespace ChibisTest.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CartId = table.Column<Guid>(nullable: false),
                     CreatedDateTime = table.Column<DateTime>(nullable: false)
                 },
@@ -26,7 +26,7 @@ namespace ChibisTest.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Cost = table.Column<decimal>(nullable: false)
                 },
@@ -40,7 +40,7 @@ namespace ChibisTest.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SubscribeUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -53,7 +53,7 @@ namespace ChibisTest.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CartId = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),

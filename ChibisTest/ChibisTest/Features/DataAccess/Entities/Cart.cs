@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 
-namespace ChibisTest.DataAccess.Entities
+namespace ChibisTest.Features.DataAccess.Entities
 {
     public class Cart : BaseEntity
     {

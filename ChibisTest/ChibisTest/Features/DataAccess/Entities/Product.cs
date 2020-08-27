@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace ChibisTest.DataAccess.Entities
+namespace ChibisTest.Features.DataAccess.Entities
 {
     public class Product : BaseEntity
     {

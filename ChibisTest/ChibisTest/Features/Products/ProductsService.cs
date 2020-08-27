@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ChibisTest.DataAccess;
-using ChibisTest.DataAccess.Entities;
 using ChibisTest.Features.Common;
 using ChibisTest.Features.Common.Exceptions;
-using ChibisTest.Features.Products.Dto;
+using ChibisTest.Features.DataAccess;
+using ChibisTest.Features.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChibisTest.Features.Products

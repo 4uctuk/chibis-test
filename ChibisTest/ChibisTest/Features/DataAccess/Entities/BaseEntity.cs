@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ChibisTest.DataAccess.Entities
+namespace ChibisTest.Features.DataAccess.Entities
 {
     public class BaseEntity
     {

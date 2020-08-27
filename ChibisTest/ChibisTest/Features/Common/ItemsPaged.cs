@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ChibisTest.DataAccess.Entities;
+using ChibisTest.Features.DataAccess.Entities;
 
 namespace ChibisTest.Features.Common
 {

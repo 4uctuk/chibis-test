@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ChibisTest.DataAccess;
-using ChibisTest.DataAccess.Entities;
 using ChibisTest.Features.Common;
+using ChibisTest.Features.DataAccess;
+using ChibisTest.Features.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChibisTest.Features.Cart
 {
-    public class CartService : ICartService
+    public class CartCrudService : ICartCrudService
     {
         private readonly ApplicationDbContext _context;
 
@@ -30,7 +30,7 @@ namespace ChibisTest.Features.Cart
             }
         }
 
-		public CartService(ApplicationDbContext context)
+		public CartCrudService(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -52,7 +52,7 @@ namespace ChibisTest.Features.Cart
             return cart != null ? cart.CartItems.ToList() : new List<CartItem>();
         }
 
-        public async Task AddCartItem(AddProductToCartDto item)
+        public async Task<Guid> AddCartItem(AddProductToCartDto item)
         {
             if (item == null)
             {
@@ -68,7 +68,7 @@ namespace ChibisTest.Features.Cart
             var cart = await GetCartById(item.CartId);
             if (cart == null)
             {
-                await CreateNewCart(item);
+                cart = await CreateNewCart(item);
             }
             else
             {
@@ -76,6 +76,8 @@ namespace ChibisTest.Features.Cart
             }
 
             await _context.SaveChangesAsync();
+
+            return cart.CartId;
         }
 
         private async Task AddItemToExistingCart(AddProductToCartDto item, DataAccess.Entities.Cart cart)
@@ -99,7 +101,7 @@ namespace ChibisTest.Features.Cart
             }
         }
 
-        private async Task CreateNewCart(AddProductToCartDto item)
+        private async Task<DataAccess.Entities.Cart> CreateNewCart(AddProductToCartDto item)
         {
             var cart = new DataAccess.Entities.Cart()
             {
@@ -118,6 +120,8 @@ namespace ChibisTest.Features.Cart
             };
 
             await _context.CartItems.AddAsync(cartItem);
+
+            return cart;
         }
         
         public async Task DeleteCartItem(DeleteProductFromCartDto item)
