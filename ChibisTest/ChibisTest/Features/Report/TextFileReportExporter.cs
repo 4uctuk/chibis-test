@@ -14,9 +14,9 @@ namespace ChibisTest.Features.Report
             _reportDataService = reportDataService;
         }
 
-        public async Task ExportAndSaveReport()
+        public async Task ExportReport()
         {
-            var reportData = await _reportDataService.GetReportData();
+            var reportData = _reportDataService.GetReportData();
             var serializedData = JsonSerializer.Serialize(reportData);
             var date = DateTime.UtcNow;
             var fileName = $"Report_{date.Year}_{date.Month}_{date.Day}_{date.Hour}.json";

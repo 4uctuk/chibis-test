@@ -7,6 +7,10 @@ namespace ChibisTest.Features.Report
 {
     public interface IReportExporter
     {
-        Task ExportAndSaveReport();
+        /// <summary>
+        /// Export report
+        /// </summary>
+        /// <returns></returns>
+        Task ExportReport();
     }
 }

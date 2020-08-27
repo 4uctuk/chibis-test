@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using ChibisTest.Features.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -18,12 +17,13 @@ namespace ChibisTest.Features.Report
             _logger = logger;
         }
 
-        public async Task<Report> GetReportData()
+        public Report GetReportData()
         {
             try
             {
                 var report = new Report();
 
+                //TODO: Я прекрасно понимаю что такой вариант не очень и всю логику подсчёта нужно переносить в запросы к бд
                 var carts = _context.Carts.Include("CartItems.Product").ToList();
 
                 if (carts.Count > 0)

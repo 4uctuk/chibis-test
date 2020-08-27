@@ -19,7 +19,10 @@ namespace ChibisTest.Features.WebHooks
             _service = service;
         }
 
-
+        /// <summary>
+        /// Return all subscribed urls
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(List<Subscriber>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll()
@@ -28,12 +31,17 @@ namespace ChibisTest.Features.WebHooks
             return Ok(result);
         }
 
+        /// <summary>
+        /// Add new subscriber
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         [HttpGet("add")]
-        public async Task<IActionResult> Add(string url)
+        public async Task<IActionResult> Add(Uri url)
         {
             try
             {
-                await _service.AddSubscriber(url);
+                await _service.AddSubscriber(url.ToString());
                 return Ok();
             }
             catch (DuplicatedEntityException ex)
@@ -43,15 +51,20 @@ namespace ChibisTest.Features.WebHooks
             
         }
 
+        /// <summary>
+        /// Remove subscriber
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         [HttpGet("remove")]
-        public async Task<IActionResult> Remove(string url)
+        public async Task<IActionResult> Remove(Uri url)
         {
             try
             {
-                await _service.RemoveSubscriber(url);
+                await _service.RemoveSubscriber(url.ToString());
                 return Ok();
             }
-            catch (InvalidOperationException)
+            catch (EntityNotFoundException)
             {
                 return BadRequest($"This subscriber:{url} doesn't exist");
             }

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChibisTest.Features.DataAccess;
 using ChibisTest.Features.WebHooks;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace ChibisTest.Features.Cart

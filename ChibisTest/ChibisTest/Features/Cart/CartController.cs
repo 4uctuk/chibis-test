@@ -20,6 +20,12 @@ namespace ChibisTest.Features.Cart
             _cartCrudService = cartCrudService;
         }
 
+        /// <summary>
+        /// Return all carts
+        /// </summary>
+        /// <param name="limit">limit</param>
+        /// <param name="offset">offset</param>
+        /// <returns>paged carts</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ItemsPaged<DataAccess.Entities.Cart>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCarts(int limit = 50, int offset = 0)
@@ -28,6 +34,11 @@ namespace ChibisTest.Features.Cart
             return Ok(carts);
         }
         
+        /// <summary>
+        /// Return all cart items from cart
+        /// </summary>
+        /// <param name="cartId">cart id</param>
+        /// <returns></returns>
         [HttpGet("{cartId}")]
         [ProducesResponseType(typeof(List<CartItem>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.NotFound)]
@@ -45,6 +56,11 @@ namespace ChibisTest.Features.Cart
           
         }
 
+        /// <summary>
+        /// Add product to cart (create new cart if cartId not exist)
+        /// </summary>
+        /// <param name="productCartDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Add(AddProductToCartDto productCartDto)
         {
@@ -57,13 +73,17 @@ namespace ChibisTest.Features.Cart
             {
                 return BadRequest(e.Message);
             }
-            catch (InvalidOperationException e)
+            catch (EntityNotFoundException e)
             {
                 return BadRequest(e.Message);
             }
         }
 
-
+        /// <summary>
+        /// Delete product from cart
+        /// </summary>
+        /// <param name="productCartDto"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> Delete(DeleteProductFromCartDto productCartDto)
         {
@@ -76,7 +96,7 @@ namespace ChibisTest.Features.Cart
             {
                 return BadRequest(e.Message);
             }
-            catch (InvalidOperationException e)
+            catch (EntityNotFoundException e)
             {
                 return BadRequest(e.Message);
             }

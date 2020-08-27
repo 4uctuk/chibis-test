@@ -25,8 +25,20 @@ namespace ChibisTest.Features.HostedServices
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("CartExpiringTimedService running.");
-            _timer = new Timer(DoWork, null, TimeSpan.FromMinutes(1),
-                TimeSpan.FromHours(1));
+
+            var enviromentTimeSpan = Environment.GetEnvironmentVariable("ExpiredCartSpanMinutes");
+
+            if (int.TryParse(enviromentTimeSpan, out var result))
+            {
+                _timer = new Timer(DoWork, null, TimeSpan.FromMinutes(1),
+                    TimeSpan.FromMinutes(result));
+            }
+            else
+            {
+                _timer = new Timer(DoWork, null, TimeSpan.FromMinutes(1),
+                    TimeSpan.FromMinutes(20));
+            }
+           
 
             return Task.CompletedTask;
         }

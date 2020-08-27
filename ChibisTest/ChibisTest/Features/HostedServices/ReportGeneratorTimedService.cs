@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ChibisTest.Features.Cart;
 using ChibisTest.Features.Report;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,8 +23,17 @@ namespace ChibisTest.Features.HostedServices
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("ReportGeneratorTimedService running.");
-            _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(20),
-                TimeSpan.FromDays(1));
+            var enviromentTimeSpan = Environment.GetEnvironmentVariable("ReportTimeSpanMinutes");
+            if (int.TryParse(enviromentTimeSpan, out var result))
+            {
+                _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(20),
+                    TimeSpan.FromMinutes(result));
+            }
+            else
+            {
+                _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(20),
+                    TimeSpan.FromMinutes(1440));
+            }
 
             return Task.CompletedTask;
         }
@@ -38,7 +44,7 @@ namespace ChibisTest.Features.HostedServices
             {
                 using var scope = _scopeFactory.CreateScope();
                 var service = scope.ServiceProvider.GetService<IReportExporter>();
-                service.ExportAndSaveReport();
+                service.ExportReport();
             }
             catch (Exception e)
             {

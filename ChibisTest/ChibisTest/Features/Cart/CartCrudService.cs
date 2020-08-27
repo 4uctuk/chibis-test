@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChibisTest.Features.Common;
+using ChibisTest.Features.Common.Exceptions;
 using ChibisTest.Features.DataAccess;
 using ChibisTest.Features.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -62,7 +63,7 @@ namespace ChibisTest.Features.Cart
             
             if (product == null)
             {
-                throw new InvalidOperationException($"Product with id:{item.ProductId} doesn't exist");
+                throw new EntityNotFoundException($"Product with id:{item.ProductId} doesn't exist");
             }
 
             var cart = await GetCartById(item.CartId);
@@ -134,13 +135,13 @@ namespace ChibisTest.Features.Cart
             var cart = await GetCartById(item.CartId);
             if (cart == null)
             {
-                throw new InvalidOperationException($"Cart with id:{item.CartId} doesn't exist");
+                throw new EntityNotFoundException($"Cart with id:{item.CartId} doesn't exist");
             }
 
             var cartItem = cart.CartItems.FirstOrDefault(c => c.ProductId == item.ProductId);
             if (cartItem == null)
             {
-                throw new InvalidOperationException($"Cart item with product id:{item.ProductId} doesn't exist");
+                throw new EntityNotFoundException($"Cart item with product id:{item.ProductId} doesn't exist");
             }
 
             cartItem.Quantity--;
